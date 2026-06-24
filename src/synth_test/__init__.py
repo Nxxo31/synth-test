@@ -1,0 +1,1 @@
+# synth-test - Generate edge case tests from JSON Schema
