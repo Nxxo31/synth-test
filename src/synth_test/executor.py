@@ -168,10 +168,12 @@ def execute_case(
     response_headers: dict = {}
 
     try:
-        resp = requests.request(
-            timeout=timeout,
-            **request_spec,
-        )
+        # Unpack kwargs dict separately (method and url are top-level)
+        method = request_spec.pop("method")
+        url = request_spec.pop("url")
+        extra_kwargs = request_spec.pop("kwargs", {})
+        extra_kwargs.pop("timeout", None)  # timeout passed explicitly below
+        resp = requests.request(method, url, timeout=timeout, **extra_kwargs)
         response_status = resp.status_code
         response_headers = dict(resp.headers)
 
